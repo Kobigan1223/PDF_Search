@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - PDF Management System</title>
+    <style>
+        body {
+            background-color: #ADD8E6;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            width: 100%;
+            background-color: #0096FF;
+            color: white;
+            padding: 5px 0;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90%;
+            max-width: 1500px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            padding: 20px;
+        }
+        h1 {
+            color: #000;
+            margin-bottom: 20px;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        .nav-box {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            width: 22%;
+            text-align: center;
+            padding: 20px;
+            margin: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .nav-box a {
+            display: block;
+            color: #000;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .nav-box:hover {
+            background-color: #0096FF;
+            color: #ffffff;
+        }
+        .nav-box:hover a {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>SUMXIO</h2>
+    </header>
+    <div class="container">
+        <h1>Welcome to the PDF Management System</h1>
+        <div class="nav-links">
+            <div class="nav-box">
+                <a href="{{ url_for('search_page') }}">Search in PDFs</a>
+            </div>
+            <div class="nav-box">
+                <a href="{{ url_for('list_documents') }}">List Documents</a>
+            </div>
+            <div class="nav-box">
+                <a href="{{ url_for('upload_file') }}">Upload Document</a>
+            </div>
+            <div class="nav-box">
+                <a href="{{ url_for('summary_page') }}">Summary for PDF</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Search</title>
+    <style>
+        body {
+            background-color: #ADD8E6;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #0096FF;
+        }
+        label {
+            font-size: 18px;
+            color: #333;
+            display: block;
+            margin-bottom: 8px;
+        }
+        input[type="text"], input[type="checkbox"] {
+            width: calc(100% - 30px);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #0000FF;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0096FF;
+        }
+    </style>
+</head>
+<body>
+	<br><br>
+<br>
+<br>
+
+    <div class="container">
+        <h1>SUMXIO</h1>  
+        <h1>Search for a word in PDF documents</h1>
+        <form action="/search" method="post" enctype="multipart/form-data">
+            <label for="word">Word to search for:</label>
+            <input type="text" id="word" name="word" required>
+            <input type="checkbox" id="exact-match" name="exact_match">
+            <label for="exact-match">Exact Match</label>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</body>
+</html>

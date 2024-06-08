@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Search</title>
+    <style>
+        body {
+            background-color: #ADD8E6;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            width: 100%;
+            background-color: #0096FF;
+            color: white;
+            padding: 5px 0;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1500px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .search-panel, .results-panel {
+            padding: 20px;
+            flex: 1;
+        }
+        .search-panel {
+            background-color: #f7f7f7;
+            border-right: 1px solid #ddd;
+        }
+        .results-panel {
+            background-color: #fff;
+        }
+        h1 {
+            color: #00000;
+        }
+        label {
+            font-size: 18px;
+            color: #333;
+            display: block;
+            margin-bottom: 8px;
+        }
+        input[type="text"], input[type="checkbox"] {
+            width: calc(100% - 30px);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #0000FF;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0096FF;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #96DED1;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            color: #0056b3;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+        }
+        .back-link:hover {
+            color: #0056b3;
+        }
+        .pdf-panel {
+            padding: 20px;
+            flex: 3; /* Adjusted to make it bigger */
+        }
+        .pdf-frame {
+            width: 100%;
+            height: 90vh; /* Adjust height to occupy more space */
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>SUMXIO</h2>  
+        <h4>Search for a word in PDF documents</h4>
+    </header>
+    <div class="container">
+        <div class="search-panel">
+            <form action="/search" method="post" enctype="multipart/form-data">
+                <label for="word">Word to search for:</label>
+                <input type="text" id="word" name="word" required>
+                <input type="checkbox" id="exact-match" name="exact_match">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <div class="results-panel">
+            {% if search_results is not none %}
+                <h2>Search Results for '{{ word }}'</h2>
+                <table>
+                    <tr>
+                        <th>Document</th>
+                        <th>Page Number & Occurrences</th>
+                    </tr>
+                    {% for pdf_name, data in search_results.items() %}
+                        {% for page_num, count in data[1].items() %}
+                            <tr>
+                                {% if loop.first %}
+                                    <td rowspan="{{ data[1]|length }}">
+                                        <a href="{{ url_for('view_pdf', filename=data[0]) }}" target="pdf_frame">{{ pdf_name }}</a>
+                                    </td>
+                                {% endif %}
+                                <td>
+                                    <a href="{{ url_for('view_pdf', filename=data[0]) }}#page={{ page_num }}" target="pdf_frame">Page {{ page_num }}</a> ({{ count }} occurrence{{ count > 1 and 's' or '' }})
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </table>
+                <a href="/" class="back-link">Back to search</a>
+            {% else %}
+                <h2>No results yet. Please perform a search.</h2>
+            {% endif %}
+        </div>
+        <div class="pdf-panel">
+            <iframe class="pdf-frame" name="pdf_frame"></iframe>
+        </div>
+    </div>
+</body>
+</html>

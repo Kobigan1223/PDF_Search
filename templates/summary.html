@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Summary</title>
+    <style>
+        body {
+            background-color: #ADD8E6;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            width: 100%;
+            background-color: #0096FF;
+            color: white;
+            padding: 5px 0;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            padding: 20px;
+        }
+        .left-panel, .right-panel {
+            padding: 20px;
+            width: 50%;
+        }
+        .left-panel {
+            border-right: 1px solid #ddd;
+        }
+        .right-panel {
+            padding-left: 40px;
+        }
+        h1 {
+            color: #000;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin: 15px 0;
+            width: 100%;
+        }
+        label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        input[type="file"], input[type="number"], button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        button {
+            background-color: #005af0;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #0096FF;
+        }
+        .summary-content {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.5;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+        }
+        .back-link:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>SUMXIO</h2>
+        <h4>Generate PDF Summary</h4>
+    </header>
+    <div class="container">
+        <div class="left-panel">
+            <h1>Generate Summary for PDF</h1>
+            <form action="{{ url_for('summary_page') }}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="file">Upload PDF:</label>
+                    <input type="file" name="file" id="file" accept=".pdf" required>
+                </div>
+                <div class="form-group">
+                    <label for="start_page">Start Page:</label>
+                    <input type="number" name="start_page" id="start_page" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="end_page">End Page:</label>
+                    <input type="number" name="end_page" id="end_page" min="1" required>
+                </div>
+                <button type="submit">Generate Summary</button>
+            </form>
+        </div>
+        <div class="right-panel">
+            <h1>Summary</h1>
+            {% if show_summary %}
+            <div class="summary-content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Vivamus vehicula nunc ac arcu finibus, quis porttitor lorem mattis. In auctor massa eu ex volutpat tincidunt. Ut nec urna ornare, hendrerit quam a, tincidunt libero. Curabitur vulputate lectus id purus laoreet, nec vulputate ligula dapibus. Nulla facilisi. Integer vehicula nisl sit amet velit consequat, a efficitur libero faucibus. Nullam vel venenatis erat. Suspendisse potenti. Etiam ut sem non magna scelerisque tempor a sed turpis. Nulla posuere purus nec orci tincidunt, sed varius ipsum sagittis.
+            </div>
+            {% else %}
+            <div class="summary-content">
+                Please upload a PDF and specify the page range to generate the summary.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <a href="/" class="back-link">Back to Home</a>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ADD8E6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+        h1:hover {
+            background-color: #ADD8E6;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #B2BEB5;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color:#96DED1;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+            transition: color 0.3s;
+        }
+        .back-link:hover {
+            color: #96DED1;
+        }
+        .filter-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .filter-btn {
+            margin: 10 5px;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        .filter-btn:hover {
+            background-color: #96DED1;
+        }
+    </style>
+</head>
+<body><br>
+<br>
+
+    <div class="container">
+        <h1>Search Results for '{{ word }}'</h1>
+        <div class="filter-container">
+            {% for pdf_name, data in search_results.items() %}
+                <button class="filter-btn" onclick="filterDocuments('{{ pdf_name }}')">{{ pdf_name }}</button>
+            {% endfor %}
+            <button class="filter-btn" onclick="clearFilters()">Clear Filters</button>
+        </div>
+        <table id="search-results">
+            <tr>
+                <th>Document</th>
+                <th>Page Number</th>
+                <th>Occurrences</th>
+            </tr>
+            {% for pdf_name, data in search_results.items() %}
+                {% for page_num, count in data[1].items() %}
+                    <tr class="document-row" data-document="{{ pdf_name }}">
+                        <td><a href="{{ url_for('view_pdf', filename=data[0]) }}" target="_blank">{{ pdf_name }}</a></td>
+                        <td><a href="{{ url_for('view_pdf', filename=data[0]) }}#page={{ page_num }}" target="_blank">Page {{ page_num }}</a></td>
+                        <td>{{ count }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+        <a href="/" class="back-link">Back to search</a>
+    </div>
+
+    <script>
+        function filterDocuments(documentName) {
+            var rows = document.querySelectorAll('.document-row');
+            rows.forEach(function(row) {
+                if (row.getAttribute('data-document') === documentName) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function clearFilters() {
+            var rows = document.querySelectorAll('.document-row');
+            rows.forEach(function(row) {
+                row.style.display = 'table-row';
+            });
+        }
+    </script>
+</body>
+</html>
